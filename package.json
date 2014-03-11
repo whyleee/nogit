@@ -4,11 +4,7 @@
   "description": "A command-line git client powered by js-git and node.js",
   "main": "index.js",
   "bin": {
-    "jsgit-fetch": "./bin/fetch.js",
-    "jsgit-log": "./bin/log.js",
-    "jsgit-export": "./bin/export.js",
-    "jsgit-ls-remote": "./bin/ls-remote.js",
-    "jsgit": "./bin/cli.js"
+    "jsgit": "./bin/jsgit.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +15,8 @@
   ],
   "dependencies": {
     "commander": "~2.0.0",
-    "git-node": "~0.1.1"
+    "git-node": "~0.1.1",
+    "mkdirp": "~0.3.5"
   },
   "devDependencies": {},
   "author": "Tim Caswell <tim@creationix.com>",
