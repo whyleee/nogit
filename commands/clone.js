@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 var git = require('git-node');
 var fs = require('fs');
 var path = require('path');
