@@ -1,7 +1,7 @@
 {
   "name": "nogit",
   "version": "0.0.3",
-  "description": "Local git replacement as a last resort",
+  "description": "Local git replacement for npm and bower, powered by js-git and node.js",
   "bin": {
     "git": "./bin/git.js"
   },

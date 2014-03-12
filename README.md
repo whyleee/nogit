@@ -1,7 +1,7 @@
 nogit
 =====
 
-Local git replacement as a last resort. Created to get rid of local git dependency in npm and bower, so contains only tiny subset of features for those tools.
+Local git replacement as a last resort. Created to get rid of local git dependency in npm and bower, so contains only tiny subset of git features for those tools.
 
 ## Usage
 
