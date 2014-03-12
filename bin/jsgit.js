@@ -4,6 +4,7 @@ var program = require('commander');
 var clone = require('../commands/clone');
 var archive = require('../commands/archive');
 var fs = require('fs');
+var ini = require('ini');
 
 program
   .version(require('git-node').version);
@@ -25,6 +26,17 @@ program
   .option('-a, --append', 'pppend ref and object names of fetched refs to the .git/FETCH_HEAD')
   .action(function(repo, options) {
     // todo
+  });
+
+program
+  .command('config')
+  .description('Get repository options')
+  .option('--get <key>', 'get the value for a given key')
+  .action(function(options) {
+    if (options.get) {
+      var config = ini.parse(fs.readFileSync('config', 'utf8'));
+      console.log(config['remote "origin"'].url);
+    }
   });
 
 program
