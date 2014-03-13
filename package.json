@@ -15,7 +15,7 @@
     "js-git"
   ],
   "dependencies": {
-    "commander": "~2.0.0",
+    "commander": "~2.1.0",
     "git-node": "~0.1.1",
     "mkdirp": "~0.3.5",
     "archiver": "~0.6.1",

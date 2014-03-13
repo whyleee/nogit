@@ -13,7 +13,7 @@ function clone(url, dir, options) {
 
   var fetchOpts = {};
   if (options.verbose) fetchOpts.onProgress = onProgress;
-  if (options.ref) fetchOpts.want = options.ref;
+  if (options.branch) fetchOpts.want = options.branch;
   if (options.depth) fetchOpts.depth = parseInt(options.depth, 10);
 
   if (!fs.existsSync(target)) {
@@ -35,13 +35,13 @@ function clone(url, dir, options) {
 
   function onFetch() {
     if (!options.mirror) {
-      repo.resolveHashish(options.ref, function (err, hash) {
+      repo.resolveHashish(options.branch, function (err, hash) {
         if (err) throw err;
         repo.updateHead(hash, function (err) {
           if (err) throw err;
           // copied from export.js
           var read;
-          repo.treeWalk("HEAD", function (err, stream) {
+          repo.treeWalk('HEAD', function (err, stream) {
             if (options.verbose) console.log('walking...');
             if (err) throw err;
             read = stream.read;

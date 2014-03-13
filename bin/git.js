@@ -7,14 +7,16 @@ var fs = require('fs');
 var ini = require('ini');
 
 program
-  .version(require('git-node').version);
+  .version(require('git-node').version)
+  .option('-v, --verbose', 'show detailed output');
 
 program
   .command('clone <url> [dir]')
   .description('Clone a repository into a new directory')
-  .option('--ref <branch/tag/ref>', 'checkout to specefic branch, tag, or ref', 'HEAD')
+  .option('-b, --branch <branch/tag/ref>', 'checkout to specefic branch, tag or ref', /* default */ 'HEAD')
   .option('--depth <num>', 'do a shallow clone with num commits deep')
   .option('--mirror', 'not supported yet (will act as a "git fetch")')
+  .option('--progress', 'show progress status')
   .option('-v, --verbose', 'show detailed output')
   .action(function(url, dir, options) {
     clone(url, dir, options);
