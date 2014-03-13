@@ -3,6 +3,7 @@
 var program = require('commander');
 var clone = require('../commands/clone');
 var archive = require('../commands/archive');
+var lsRemote = require('../commands/ls-remote');
 var fs = require('fs');
 var ini = require('ini');
 
@@ -65,8 +66,16 @@ program
     archive(commit, options);
   });
 
+program
+  .command('ls-remote <repo>')
+  .description('List references in a remote repository')
+  .option('-t, --tags', 'limit to tags')
+  .option('-h, --heads', 'limit to heads')
+  .action(function(repo, options) {
+    lsRemote(repo, options);
+  });
 
-  // .command("ls-remote <url>", "List remote refs")
+
   // .command("fetch <url>", "Download objects and refs from another repository")
   // .command("log", "Show local history")
   // .command("export <target>", "Export tree at HEAD as real files to target")
