@@ -1,6 +1,6 @@
 {
   "name": "nogit",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "Local git replacement for npm and bower, powered by js-git and node.js",
   "bin": {
     "git": "./bin/git.js"
@@ -15,7 +15,7 @@
     "js-git"
   ],
   "dependencies": {
-    "commander": "~2.1.0",
+    "commander": "https://github.com/whyleee/commander.js/tarball/master",
     "git-node": "~0.1.1",
     "mkdirp": "~0.3.5",
     "archiver": "~0.6.1",
