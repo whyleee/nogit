@@ -5,6 +5,9 @@ var pathJoin = path.join;
 var mkdirp = require('mkdirp');
 
 function clone(url, dir, options) {
+  if (url.indexOf('.git', url.length - ('.git').length) == -1) {
+    url += '.git';
+  }
   var remote = git.remote(url);
   var target = dir || path.basename(remote.pathname, ".git");
   var clonePath = target;
