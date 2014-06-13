@@ -1,13 +1,13 @@
 {
   "name": "nogit",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "Local git replacement for npm and bower, powered by js-git and node.js",
   "bin": {
     "git": "./bin/git.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/whyleee/jsgit"
+    "url": "https://github.com/whyleee/nogit"
   },
   "keywords": [
     "git",
