@@ -86,7 +86,7 @@ function clone(url, dir, options) {
         console.log('Created repo config');
         console.log("Done.");
       }
-    })
+    });
   }
 }
 
