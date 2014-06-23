@@ -17,8 +17,11 @@ function clone(url, dir, options) {
   var repo = git.repo(target);
 
   var fetchOpts = {};
+  // if no branch specified, get all heads
+  fetchOpts.want = options.branch || function(ref, cb) {
+    return cb(null, ref && ref.indexOf('refs/heads') != -1);
+  };
   if (options.verbose) fetchOpts.onProgress = onProgress;
-  if (options.branch) fetchOpts.want = options.branch;
   if (options.depth) fetchOpts.depth = parseInt(options.depth, 10);
 
   if (!fs.existsSync(target)) {
@@ -40,7 +43,7 @@ function clone(url, dir, options) {
 
   function onFetch() {
     if (!options.mirror) {
-      repo.resolveHashish(options.branch, function (err, hash) {
+      repo.resolveHashish(options.branch || 'HEAD', function (err, hash) {
         if (err) throw err;
         repo.updateHead(hash, function (err) {
           if (err) throw err;

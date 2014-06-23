@@ -21,7 +21,7 @@ config.read(function(config) {
   program
     .command('clone <url> [dir]')
     .description('Clone a repository into a new directory')
-    .option('-b, --branch <branch/tag/ref>', 'checkout to specefic branch, tag or ref', /* default */ 'HEAD')
+    .option('-b, --branch <branch/tag/ref>', 'checkout to specefic branch, tag or ref')
     .option('--depth <num>', 'do a shallow clone with num commits deep')
     .option('--mirror', 'not supported yet (will act as a "git fetch")')
     .option('--progress', 'show progress status')
@@ -55,8 +55,9 @@ config.read(function(config) {
     .description('Lists commit objects in reverse chronological order')
     .option('-n, --max-count <n>', 'limit the number of commits to output', parseInt)
     .action(function(commit, options) {
-      if (commit == 'master' && options.maxCount == 1) {
-        var hash = fs.readFileSync('refs/heads/master', 'utf8').trim();
+      // only '-n1' and 'refs/heads' are supported
+      if (options.maxCount == 1) {
+        var hash = fs.readFileSync('refs/heads/' + commit, 'utf8').trim();
         console.log(hash);
       }
       else {
