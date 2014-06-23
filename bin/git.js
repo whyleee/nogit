@@ -27,7 +27,7 @@ config.read(function(config) {
     .option('--progress', 'show progress status')
     .option('-v, --verbose', 'show detailed output')
     .action(function(url, dir, options) {
-      clone(fixUrl(url), dir, options);
+      clone(url, dir, options);
     });
 
   program
@@ -44,7 +44,9 @@ config.read(function(config) {
     .option('--get <key>', 'get the value for a given key')
     .action(function(options) {
       if (options.get) {
-        console.log(config['remote "origin"'].url);
+        if (config['remote "origin"']) {
+          console.log(config['remote "origin"'].url);
+        }
       }
     });
 
@@ -78,7 +80,7 @@ config.read(function(config) {
     .option('-t, --tags', 'limit to tags')
     .option('-h, --heads', 'limit to heads')
     .action(function(repo, options) {
-      lsRemote(fixUrl(repo), options);
+      lsRemote(repo, options);
     });
 
 
@@ -98,28 +100,11 @@ config.read(function(config) {
 
   function fixNumArgs() {
     for (var i = 0; i < process.argv.length; ++i) {
-      if (/-[a-zA-Z](\d+)/g.test(process.argv[i])) {
+      if (/^-[a-zA-Z](\d+)$/g.test(process.argv[i])) {
         process.argv.splice(i + 1, 0, process.argv[i].slice(2));
         process.argv[i] = process.argv[i].slice(0, 2);
       }
     }
-  }
-  
-  function fixUrl(url) {
-    // '.git' ending is required for js-git
-    if (url.indexOf('.git', url.length - ('.git').length) == -1) {
-      url += '.git';
-    }
-    
-    // can't use proxy for 'git://' urls (tcp) - use 'https://' instead
-    // also check if such replacement required in the config
-    var httpsInsteadOfGit = config['url "https://"'] &&
-                            config['url "https://"'].insteadOf == 'git://';
-    if ((httpsInsteadOfGit || config.nogit.proxy) && url.indexOf('git://') == 0) {
-      url = url.replace('git://', 'https://');
-    }
-    
-    return url;
   }
   
   function enableProxyIfRequired() {

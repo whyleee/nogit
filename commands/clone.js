@@ -3,8 +3,13 @@ var fs = require('fs');
 var path = require('path');
 var pathJoin = path.join;
 var mkdirp = require('mkdirp');
+var utils = require('../lib/utils');
 
 function clone(url, dir, options) {
+  // fix url
+  var origUrl = url;
+  url = utils.fixUrl(url);
+  
   var remote = git.remote(url);
   var target = dir || path.basename(remote.pathname, ".git");
   var clonePath = target;
@@ -77,7 +82,7 @@ function clone(url, dir, options) {
     }
 
     // create config with remote
-    fs.writeFile(target + '/config', '[remote "origin"]\r\n\turl = ' + url, function(err) {
+    fs.writeFile(target + '/config', '[remote "origin"]\r\n\turl = ' + origUrl, function(err) {
       if (err) throw err;
       if (options.verbose) {
         console.log('Created repo config');
