@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 var program = require('commander');
-var clone = require('../commands/clone');
-var archive = require('../commands/archive');
+// var clone = require('../commands/clone');
+// var archive = require('../commands/archive');
 var lsRemote = require('../commands/ls-remote');
 var config = require('../lib/config');
 var globalTunnel = require('global-tunnel');
