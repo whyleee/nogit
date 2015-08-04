@@ -1,14 +1,8 @@
-var utils = require('../lib/utils');
-var request = require('../lib/js-git-node-request');
-var httpTransport = require('js-git/net/transport-http')(request);
-var fetchPackProtocol = require('js-git/net/git-fetch-pack');
+var jsgit = require('../lib/js-git-api');
 
 function lsRemote(repoUrl, options) {
-  repoUrl = utils.fixUrl(repoUrl);
-  var transport = httpTransport(repoUrl);
-  var api = fetchPackProtocol(transport);
-  
-  api.take(function(err, refs) {
+  var remote = jsgit.remote(repoUrl);
+  remote.take(function(err, refs) {
     if (err) throw err;
     Object.keys(refs).forEach(function (ref) {
       if (options.tags && !~ref.indexOf('refs/tags/')) {
@@ -19,6 +13,7 @@ function lsRemote(repoUrl, options) {
       }
       console.log(refs[ref] + "\t" + ref);
     });
+    remote.close();
   });
 }
 
