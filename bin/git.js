@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
+require('../lib/es6'); // polyfills
 var program = require('commander');
-// var clone = require('../commands/clone');
+var clone = require('../commands/clone');
 // var archive = require('../commands/archive');
 var lsRemote = require('../commands/ls-remote');
 var config = require('../lib/config');
