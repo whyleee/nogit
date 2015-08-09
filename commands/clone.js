@@ -99,12 +99,14 @@ var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
 var jsgit = require('../lib/js-git-api');
+var modes = require('js-git/lib/modes');
 
 module.exports = function clone(repoUrl, dir, options) {
   var remote = jsgit.remote(repoUrl);
   var targetPath = dir || path.basename(remote.url.pathname, ".git");
+  var clonePath = targetPath;
   
-  if (!options.mirror){
+  if (!options.mirror) {
     targetPath += '/.git';
   }
   if (!fs.existsSync(targetPath)) {
@@ -128,19 +130,10 @@ module.exports = function clone(repoUrl, dir, options) {
   
   remote.take(function(err, refs) {
     if (err) throw err;
-    var refSelector;
     
-    if (options.branch) {
-      refSelector = function branch(ref) {
-        return ref.endsWith('/' + options.branch); 
-      };
-    } else {
-      refSelector = function master(ref) {
-        return ref == 'refs/heads/master';
-      }
-    }
-    
-    var want = Object.keys(refs).filter(refSelector)[0];
+    var want = Object.keys(refs).filter(function(ref) {
+      return ref.endsWith('/' + (options.branch || 'heads/master')); 
+    })[0];
     remote.put({ want: refs[want] });
     
     if (options.depth) {
@@ -168,8 +161,45 @@ module.exports = function clone(repoUrl, dir, options) {
         if (err) throw err;
         repo.updateRef(want, refs[want], function(err) {
           if (err) throw err;
-          // done
-        })
+          repo.loadAs('commit', refs[want], function(err, commit) {
+            if (err) throw err;
+            repo.treeWalk(commit.tree, function(err, treeStream) {
+              if (err) throw err;
+              treeStream.read(onEntry);
+              
+              function onEntry(err, entry) {
+                if (err) throw err;
+                if (!entry) return;
+                
+                if (entry.path == '/') {
+                  return onEntryDone();
+                }
+                
+                var entryTargetPath = path.join(clonePath, entry.path);
+                if (options.verbose) {
+                  var colorPath = "\x1B[34m" + path.replace(/\//g, "\x1B[1;34m/\x1B[0;34m") + "\x1B[0m";
+                  console.log("%s %s", entry.hash, colorPath);
+                }
+
+                if (entry.mode == modes.tree) {
+                  return fs.mkdir(entryTargetPath, onEntryDone);
+                }
+                if (entry.mode == modes.blob) {
+                  return repo.loadAs('blob', entry.hash, function(err, blob) {
+                    return fs.writeFile(entryTargetPath, blob, onEntryDone);
+                  });
+                }
+                
+                return onEntryDone();
+              }
+              
+              function onEntryDone(err) {
+                if (err) throw err;
+                return treeStream.read(onEntry);
+              }
+            });
+          });
+        });
       });
     });
   });
