@@ -17,7 +17,7 @@ config.read(function(config) {
   
   program
     .version(require('git-node').version)
-    .option('-v, --verbose', 'show detailed output');
+    //.option('-v, --verbose', 'show detailed output');
 
   program
     .command('clone <url> [dir]')

@@ -112,24 +112,13 @@ module.exports = function clone(repoUrl, dir, options) {
   }
   
   var repo = {};
-  // var gitNodePlatform = require('git-node-platform');
-  // var gitFsDb = require('git-fs-db')(gitNodePlatform);
-  // var db = gitFsDb(gitNodePlatform.fs(targetPath));
-  // db.init();
-  require('js-git/mixins/fs-db')(repo, {/* TODO: fs implementation */});
+  var fsDb = require('../lib/js-git-fs-db');
+  require('js-git/mixins/fs-db')(repo, fsDb);
   require('js-git/mixins/read-combiner')(repo);
   require('js-git/mixins/pack-ops')(repo);
   require('js-git/mixins/walkers')(repo);
   require('js-git/mixins/formats')(repo);
   repo.rootPath = targetPath;
-
-  // var fetchOpts = {};
-  // 
-  // if (options.verbose) {
-  //   fetchOpts.onProgress = function(progress) {
-  //     process.stderr.write(progress);
-  //   };
-  // }
 
   if (options.mirror) {
     console.log("Cloning %s into bare repository %s", repoUrl, targetPath);
@@ -163,11 +152,23 @@ module.exports = function clone(repoUrl, dir, options) {
     
     remote.take(function(err, channels) {
       if (err) throw err;
-      repo.unpack(channels.pack, {}, function(err, report) {
+      
+      var packOpts = {
+        onError: function(err) {
+          throw err;
+        }
+      };
+      if (options.verbose) {
+        packOpts.onProgress = function(progress) {
+          console.log(progress);
+        };
+      }
+      
+      repo.unpack(channels.pack, packOpts, function(err, report) {
         if (err) throw err;
         repo.updateRef(want, refs[want], function(err) {
           if (err) throw err;
-          console.log('OK!');
+          // done
         })
       });
     });
