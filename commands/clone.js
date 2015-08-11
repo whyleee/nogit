@@ -49,15 +49,31 @@ module.exports = function clone(repoUrl, dir, options) {
       var packOpts = {
         onError: function(err) {
           throw err;
+        },
+        onProgress: function(progress) {
+          if (options.verbose) {
+            console.log(progress);
+          }
+          // Quick hack for "repo.unpack callback is never called using HTTP transport"
+          // issue https://github.com/creationix/js-git/issues/120
+          if (remote.transport == 'http') {
+            var statsRegex = /\((\d+)\/(\d+)\)/;
+            var stats = statsRegex.exec(progress);
+            
+            if (stats[1] == stats[2] - 1) {
+              if (options.verbose) {
+                progress = 'Receiving objects: 100% (' + stats[2] + '/' + stats[2] + ')\r\n';
+                console.log(progress);
+              }
+              doFetch();
+            }
+          }
         }
       };
-      if (options.verbose) {
-        packOpts.onProgress = function(progress) {
-          console.log(progress);
-        };
-      }
       
-      repo.unpack(channels.pack, packOpts, function(err, report) {
+      repo.unpack(channels.pack, packOpts, doFetch);
+      
+      function doFetch(err, report) {
         if (err) throw err;
         repo.updateRef(want, refs[want], function(err) {
           if (err) throw err;
@@ -109,7 +125,7 @@ module.exports = function clone(repoUrl, dir, options) {
             if (err) throw err;
           });
         });
-      });
+      }
     });
   });
 }
