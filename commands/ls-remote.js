@@ -2,7 +2,7 @@ var jsgit = require('../lib/js-git-api');
 
 function lsRemote(repoUrl, options) {
   var remote = jsgit.remote(repoUrl);
-  remote.take(function(err, refs) {
+  jsgit.ls(remote, function(err, refs) {
     if (err) throw err;
     Object.keys(refs).forEach(function (ref) {
       if (options.tags && !~ref.indexOf('refs/tags/')) {
@@ -13,7 +13,6 @@ function lsRemote(repoUrl, options) {
       }
       console.log(refs[ref] + "\t" + ref);
     });
-    remote.close();
   });
 }
 
