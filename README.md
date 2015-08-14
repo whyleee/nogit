@@ -8,12 +8,12 @@ Local git replacement as a last resort. Created to get rid of local git dependen
 ```sh
 > git
 
-  Usage: git [options] [command]
+  Usage: git [command] [options]
 
   Commands:
 
     clone [options] <url> [dir]      Clone a repository into a new directory
-    fetch [options] [repo]           Download objects and refs from another repository
+    fetch [options] [repo]           Download objects and refs from another repository (todo)
     config [options]                 Get repository options
     rev-list [options] <commit>      Lists commit objects in reverse chronological order
     archive [options] <commit>       Create an archive of files from a named tree

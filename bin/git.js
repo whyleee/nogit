@@ -85,11 +85,6 @@ config.read(function(config) {
       lsRemote(repo, options);
     });
 
-
-    // .command("fetch <url>", "Download objects and refs from another repository")
-    // .command("log", "Show local history")
-    // .command("export <target>", "Export tree at HEAD as real files to target")
-
   enableProxyIfRequired();
   
   fixNumArgs();
