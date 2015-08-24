@@ -15,7 +15,6 @@ var proxy = require('../lib/proxy');
 config.read(function(config) {
   program
     .version(require('git-node').version)
-    //.option('-v, --verbose', 'show detailed output');
 
   program
     .command('archive <ref>')
@@ -31,7 +30,6 @@ config.read(function(config) {
     .option('--depth <num>', 'do a shallow clone with num commits deep')
     .option('--mirror', 'not supported yet (will act as a "git fetch")')
     .option('--progress', 'show progress status')
-    .option('-v, --verbose', 'show detailed output')
     .action(commands.clone);
 
   program
