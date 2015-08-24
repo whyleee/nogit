@@ -30,6 +30,7 @@ config.read(function(config) {
     .option('--depth <num>', 'do a shallow clone with num commits deep')
     .option('--mirror', 'not supported yet (will act as a "git fetch")')
     .option('--progress', 'show progress status')
+    .option('--template <path>', 'not supported')
     .action(commands.clone);
 
   program
