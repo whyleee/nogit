@@ -16,7 +16,7 @@
   ],
   "dependencies": {
     "archiver": "^0.14.4",
-    "commander": "^2.8.1",
+    "commander": "https://github.com/whyleee/commander.js/tarball/master",
     "global-tunnel": "https://github.com/whyleee/global-tunnel/tarball/master",
     "ini": "^1.3.4",
     "js-git": "^0.7.7",
