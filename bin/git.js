@@ -4,6 +4,7 @@ require('../lib/es6'); // polyfills
 var program = require('commander');
 var commands = {
   archive: require('../commands/archive'),
+  checkout: require('../commands/checkout'),
   clone: require('../commands/clone'),
   config: require('../commands/config'),
   lsRemote: require('../commands/ls-remote'),
@@ -22,6 +23,11 @@ config.read(function(config) {
     .option('--format <tar|zip>', 'format of the resulting archive: tar or zip')
     .option('--prefix <path>', 'prepend <prefix>/ to each filename in the archive')
     .action(commands.archive);
+  
+  program
+    .command('checkout <ref>')
+    .description('Checkout a branch or paths to the working tree')
+    .action(commands.checkout);
     
   program
     .command('clone <url> [dir]')
