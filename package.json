@@ -20,7 +20,8 @@
     "global-tunnel": "https://github.com/whyleee/global-tunnel/tarball/master",
     "ini": "^1.3.4",
     "js-git": "^0.7.7",
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^0.5.1",
+    "ncp": "^2.0.0"
   },
   "devDependencies": {},
   "author": "Pavel Nezhencev <whyleee@gmail.com>, based on js-git by Tim Caswell <tim@creationix.com>",
