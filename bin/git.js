@@ -15,7 +15,7 @@ var proxy = require('../lib/proxy');
 
 config.read(function(config) {
   program
-    .version(require('git-node').version)
+    .version('0.1.0');
 
   program
     .command('archive <ref>')
