@@ -16,7 +16,8 @@ var proxy = require('../lib/proxy');
 
 config.read(function(config) {
   program
-    .version('0.1.0');
+    .version('0.1.0')
+    .option('-c <setting>', 'ignored');
 
   program
     .command('archive <ref>')
