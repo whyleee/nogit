@@ -1,10 +1,8 @@
-var config = require('../lib/config').get();
+var jsgit = require('../lib/js-git-api');
 
 module.exports = function(options) {
   // only '--get' supported
   if (options.get) {
-    if (config['remote "origin"']) {
-      console.log(config['remote "origin"'].url);
-    }
+    console.log(jsgit.getRemoteUrl());
   }
 };
