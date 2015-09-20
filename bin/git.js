@@ -8,7 +8,8 @@ var commands = {
   clone: require('../commands/clone'),
   config: require('../commands/config'),
   lsRemote: require('../commands/ls-remote'),
-  revList: require('../commands/rev-list')
+  revList: require('../commands/rev-list'),
+  revParse: require('../commands/rev-parse')
 };
 var config = require('../lib/config');
 var proxy = require('../lib/proxy');
@@ -57,6 +58,12 @@ config.read(function(config) {
     .description('Lists commit objects in reverse chronological order')
     .option('-n, --max-count <n>', 'limit the number of commits to output', parseInt)
     .action(commands.revList);
+  
+  program
+    .command('rev-parse')
+    .description('Pick out and massage parameters')
+    .option('--is-inside-git-dir', 'print "true" if the current working dir is below the git dir, "false" otherwise')
+    .action(commands.revParse);
 
   proxy.enableIfRequired();
   
