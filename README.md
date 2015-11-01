@@ -1,27 +1,30 @@
 nogit
 =====
 
-Local git replacement as a last resort. Created to get rid of local git dependency in npm and bower, so contains only tiny subset of git features for those tools.
+Local git replacement as a last resort. Created to get rid of local git dependency in [npm](https://github.com/npm/npm) and [bower](https://github.com/bower/bower), so contains only tiny subset of git features for those tools.
 
 ## Usage
 
 ```sh
 > git
 
-  Usage: git [command] [options]
+  Usage: git [options] [command]
 
   Commands:
 
-    clone [options] <url> [dir]      Clone a repository into a new directory
-    fetch [options] [repo]           Download objects and refs from another repository (todo)
-    config [options]                 Get repository options
-    rev-list [options] <commit>      Lists commit objects in reverse chronological order
-    archive [options] <commit>       Create an archive of files from a named tree
+    archive [options] <ref>      Create an archive of files from a named tree
+    checkout <ref>               Checkout a branch or paths to the working tree
+    clone [options] <url> [dir]  Clone a repository into a new directory
+    config [options]             Get repository options
+    ls-remote [options] <repo>   List references in a remote repository
+    rev-list [options] <branch>  Lists commit objects in reverse chronological order
+    rev-parse [options]          Pick out and massage parameters
 
   Options:
 
     -h, --help     output usage information
     -V, --version  output the version number
+    -c <setting>   ignored
 
 ```
 
